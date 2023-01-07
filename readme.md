@@ -18,7 +18,7 @@ npm install mav-prices
 `queryPrices()` returns a `Promise` that will resolve with a list of offers.
 
 ```javascript
-const prices = require('mav-prices')
+import { queryPrices } from 'mav-prices';
 
 queryPrices(from, to, [date], [opt]).then(…)
 ```
