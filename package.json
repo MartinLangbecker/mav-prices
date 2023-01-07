@@ -1,47 +1,47 @@
 {
-	"name": "mav-prices",
-	"version": "0.1.0",
-	"type": "module",
-	"description": "Find the cheapest fares using the MAV API.",
-	"keywords": [
-		"mav",
-		"hungarian",
-		"fare",
-		"price",
-		"offer",
-		"railway",
-		"train"
-	],
-	"homepage": "https://github.com/martinlangbecker/mav-prices",
-	"bugs": "https://github.com/martinlangbecker/mav-prices/issues",
-	"repository": "martinlangbecker/mav-prices",
-	"license": "ISC",
-	"author": "Martin Langbecker <martin.langbecker@gmail.com>",
-	"files": [
-		"lib/*"
-	],
-	"main": "lib/index.js",
-	"scripts": {
-		"check-deps": "depcheck",
-		"fix": "eslint --fix lib test.js",
-		"lint": "eslint lib test.js",
-		"prepublishOnly": "npm test",
-		"test": "npm run lint && npm run check-deps && node test"
-	},
-	"dependencies": {
-		"fetch-ponyfill": "^6.1.0",
-		"lodash.minby": "^4.6.0",
-		"mav-stations": "^0.1.1",
-		"moment-timezone": "^0.5.27",
-		"slugg": "^1.2.1"
-	},
-	"devDependencies": {
-		"depcheck": "^0.9.0",
-		"eslint": "^8.31.0",
-		"is-roughly-equal": "^0.1.0",
-		"tape": "^4.11.0"
-	},
-	"engines": {
-		"node": ">=19"
-	}
+  "name": "mav-prices",
+  "version": "0.1.0",
+  "type": "module",
+  "description": "Find the cheapest fares using the MAV API.",
+  "keywords": [
+    "mav",
+    "hungarian",
+    "fare",
+    "price",
+    "offer",
+    "railway",
+    "train"
+  ],
+  "homepage": "https://github.com/martinlangbecker/mav-prices",
+  "bugs": "https://github.com/martinlangbecker/mav-prices/issues",
+  "repository": "martinlangbecker/mav-prices",
+  "license": "ISC",
+  "author": "Martin Langbecker <martin.langbecker@gmail.com>",
+  "files": [
+    "lib/*"
+  ],
+  "main": "lib/index.js",
+  "scripts": {
+    "check-deps": "depcheck",
+    "fix": "eslint --fix lib test.js",
+    "lint": "eslint lib test.js",
+    "prepublishOnly": "npm test",
+    "test": "npm run lint && npm run check-deps && node test"
+  },
+  "dependencies": {
+    "fetch-ponyfill": "^7.1.0",
+    "lodash.minby": "^4.6.0",
+    "moment-timezone": "^0.5.27",
+    "slugg": "^1.2.1"
+  },
+  "devDependencies": {
+    "depcheck": "1.4.3",
+    "eslint": "^8.31.0",
+    "is-roughly-equal": "^0.1.0",
+    "mav-stations": "^0.1.1",
+    "tape": "^5.6.1"
+  },
+  "engines": {
+    "node": ">=19"
+  }
 }
