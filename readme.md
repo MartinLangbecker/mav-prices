@@ -2,6 +2,8 @@
 
 JavaScript module for finding railway connections prices using the MAV API. Inofficial, using an endpoint by _MAV_. Ask them for permission before using this module in production.
 
+Currently only supports international railway connections from/to Hungary.
+
 [![npm version](https://img.shields.io/npm/v/mav-prices.svg)](https://www.npmjs.com/package/mav-prices)
 ![ISC-licensed](https://img.shields.io/github/license/martinlangbecker/mav-prices.svg)
 
@@ -36,8 +38,9 @@ With `opt`, you can override the default options, which look like this:
   isArrivalDate: false, // specify whether date parameter is arrival or departure date (default: departure)
   intermediateStations: [ // 0-3 objects for intermediate stations
     {
-      stationCode: "008062648",
-      durationOfStay: 5 // set to 0 if train should at least pass through station
+      stationCode: "008062648", // station ID
+      durationOfStay: 5 // in minutes (max: 59 (officially), but more seems to work as well);
+                        // set to 0 if train should at least pass through station
     }
   ],
   travellers: [ // one or more objects; up to six people and six dogs
