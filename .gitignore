@@ -1,12 +1,8 @@
 .DS_Store
+Thumbs.db
 
-/.nvm-version
-/node_modules
-/npm-debug.log
+.nvm-version
+node_modules
+npm-debug.log
 
-/yarn.lock
-/pnpm-lock.yaml
-/shrinkwrap.yaml
-/package-lock.json
-
-/dist
+.prettierrc

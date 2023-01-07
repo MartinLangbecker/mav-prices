@@ -1,27 +1,22 @@
 {
-	"name": "db-prices",
-	"version": "3.0.3",
-	"description": "Find the cheapest routes using the DB Sparpreise API.",
+	"name": "mav-prices",
+	"version": "0.1.0",
+	"type": "module",
+	"description": "Find the cheapest fares using the MAV API.",
 	"keywords": [
-		"DB",
-		"allemand",
-		"bahn",
-		"deutsch",
+		"mav",
+		"hungarian",
 		"fare",
-		"german",
-		"preis",
+		"price",
+		"offer",
 		"railway",
-		"sparpreis",
 		"train"
 	],
-	"homepage": "https://github.com/juliuste/db-prices",
-	"bugs": "https://github.com/juliuste/db-prices/issues",
-	"repository": "juliuste/db-prices",
+	"homepage": "https://github.com/martinlangbecker/mav-prices",
+	"bugs": "https://github.com/martinlangbecker/mav-prices/issues",
+	"repository": "martinlangbecker/mav-prices",
 	"license": "ISC",
-	"author": "Julius Tens <mail@juliustens.eu>",
-	"contributors": [
-		"Jannis R <mail@jannisr.de>"
-	],
+	"author": "Martin Langbecker <martin.langbecker@gmail.com>",
 	"files": [
 		"lib/*"
 	],
@@ -36,24 +31,17 @@
 	"dependencies": {
 		"fetch-ponyfill": "^6.1.0",
 		"lodash.minby": "^4.6.0",
+		"mav-stations": "^0.1.1",
 		"moment-timezone": "^0.5.27",
-		"query-string": "^6.8.3",
 		"slugg": "^1.2.1"
 	},
 	"devDependencies": {
-		"db-stations": "^2.11.0",
 		"depcheck": "^0.9.0",
-		"eslint": "^6.6.0",
-		"eslint-config-standard": "^14.1.0",
-		"eslint-plugin-import": "^2.18.2",
-		"eslint-plugin-node": "^10.0.0",
-		"eslint-plugin-promise": "^4.2.1",
-		"eslint-plugin-standard": "^4.0.1",
+		"eslint": "^8.31.0",
 		"is-roughly-equal": "^0.1.0",
-		"tape": "^4.11.0",
-		"tape-promise": "^4.0.0"
+		"tape": "^4.11.0"
 	},
 	"engines": {
-		"node": ">=10"
+		"node": ">=19"
 	}
 }

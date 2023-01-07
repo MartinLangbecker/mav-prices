@@ -1,7 +1,16 @@
 {
-    "extends": "standard",
-    "rules": {
-    	"indent": ["error", "tab"],
-    	"no-tabs": "off"
-    }
+	"extends": "eslint:recommended",
+	"env": {
+		"es2022": true,
+		"node": true
+	},
+	"parserOptions": {
+		"sourceType": "module"
+	},
+	"ignorePatterns": [
+		"node_modules"
+	],
+	"rules": {
+		"no-unused-vars": "off"
+	}
 }
