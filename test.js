@@ -84,5 +84,4 @@ tape('Hamburg Hbf -> Hegyeshalom Hbf', async (test) => {
 // todo: opt.class
 // todo: opt.noICETrains
 // todo: opt.transferTime
-// todo: opt.duration
 // todo: opt.preferFastRoutes

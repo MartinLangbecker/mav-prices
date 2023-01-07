@@ -34,11 +34,10 @@ With `opt`, you can override the default options, which look like this:
   directConnection: false,
   longerTransferTime: false, // >=10 minutes transfer time guaranteed
   isArrivalDate: false, // specify whether date parameter is arrival or departure date (default: departure)
-  duration: 1440, // search for routes in the next n minutes (parameter date will be ignored)
   intermediateStations: [ // 0-3 objects for intermediate stations
     {
       stationCode: "008062648",
-      durationOfStay: 5 // set to 0 if train should just pass through
+      durationOfStay: 5 // set to 0 if train should at least pass through station
     }
   ],
   travellers: [ // one or more objects; up to six people and six dogs
