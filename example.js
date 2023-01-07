@@ -12,6 +12,7 @@ const when = moment
   .day(1 + 7)
   .toDate();
 
+// from Hamburg Hbf to Hegyeshalom
 prices('008099970', '005501362', when)
   .then((routes) => {
     console.log(inspect(routes, { depth: null }));

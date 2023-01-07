@@ -78,62 +78,61 @@ The following traveller and discount types are available:
 
 ## Response
 
-TODO adjust to MAV output
-
 The result will be a list of [_Friendly Public Transport Format_](https://github.com/public-transport/friendly-public-transport-format) `journey` objects.
 
-With `from = '008001071'`, `to = '005501362'` and `date = new Date('2023-01-07T00:00:00+01:00')`, the result looked like this:
+With `from = '008099970'`, `to = '005501362'` and `date = new Date('2023-01-09T09:30:00.000Z')`, the result looked like this:
 
-```javascript
+```js
 [
   {
     type: 'journey',
-    id: '0',
-    origin: {
-      type: 'station',
-      id: '8000105',
-      name: 'Frankfurt(Main)Hbf',
-    },
-    destination: {
-      type: 'station',
-      id: '8098160',
-      name: 'Berlin Hbf (tief)',
-    },
+    id: 181926962,
     legs: [
       {
-        origin: {
-          type: 'station',
-          id: '8000105',
-          name: 'Frankfurt(Main)Hbf',
-        },
-        departure: '2017-06-05T08:53:00.000Z',
-        departurePlatform: '13',
-        destination: {
-          type: 'station',
-          id: '8098160',
-          name: 'Berlin Hbf (tief)',
-        },
-        arrival: '2017-06-05T13:17:00.000Z',
-        arrivalPlatform: '7',
+        mode: 'train',
+        origin: { type: 'station', id: '008001071', name: 'Hamburg Hbf' },
+        destination: { type: 'station', id: '008022534', name: 'Würzburg Hbf' },
+        departure: '2023-01-09T12:01:00+01:00',
+        departureDelay: 0,
+        departurePlatform: null,
+        arrival: '2023-01-09T15:28:00+01:00',
+        arrivalDelay: 0,
+        arrivalPlatform: null,
+        line: { type: 'line', id: '6528402', name: 'ICE 789', mode: 'train' },
+      },
+      {
+        mode: 'train',
+        origin: { type: 'station', id: '008022534', name: 'Würzburg Hbf' },
+        destination: { type: 'station', id: '008101073', name: 'Linz Hbf' },
+        departure: '2023-01-09T15:35:00+01:00',
+        departureDelay: 0,
+        departurePlatform: null,
+        arrival: '2023-01-09T19:26:00+01:00',
+        arrivalDelay: 0,
+        arrivalPlatform: null,
+        line: { type: 'line', id: '6525223', name: 'ICE 29', mode: 'train' },
+      },
+      {
+        mode: 'train',
+        origin: { type: 'station', id: '008101073', name: 'Linz Hbf' },
+        destination: { type: 'station', id: '005501362', name: 'Hegyeshalom' },
+        departure: '2023-01-09T20:17:00+01:00',
+        departureDelay: 0,
+        departurePlatform: null,
+        arrival: '2023-01-09T22:25:00+01:00',
+        arrivalDelay: 0,
+        arrivalPlatform: null,
         line: {
           type: 'line',
-          id: 'ice-1537',
-          name: 'ICE 1537',
-          product: 'ICE',
+          id: '6493390',
+          name: 'railjet xpress 261',
+          mode: 'train',
         },
       },
     ],
-    price: {
-      currency: 'EUR',
-      amount: 126,
-      discount: false,
-      name: 'Flexpreis',
-      description:
-        'Fully flexible (not bound to a specific train / not dependent on the connection indicated on the selected route). Exchanges and refunds free of charge; on or after the first day of validity subject to a fee.',
-    },
-    nightTrain: false,
+    price: { amount: 115, currency: 'EUR', name: 'START Europa DE' },
   },
-  // …
+  // ...
 ];
 ```
 
