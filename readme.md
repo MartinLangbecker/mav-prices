@@ -15,12 +15,12 @@ npm install mav-prices
 
 ## Usage
 
-`prices()` returns a `Promise` that will resolve with a list of offers.
+`queryPrices()` returns a `Promise` that will resolve with a list of offers.
 
 ```javascript
 const prices = require('mav-prices')
 
-prices(from, to, [date], [opt]).then(…)
+queryPrices(from, to, [date], [opt]).then(…)
 ```
 
 `from` and `to` must be MAV station IDs like `"008099970"`.
@@ -52,29 +52,32 @@ With `opt`, you can override the default options, which look like this:
 }
 ```
 
-The following traveller and discount types are available:
+The following traveller and discount types are available for international journeys:
 
-`passengerTypes`
-
-- 0: "Child (0-4 years)"
-- 1: "Child (4-6 years)"
-- 2: "Child (6-12 years)"
-- 3: "Child (12-14 years)"
-- 4: "Youth (14-15 years)"
-- 5: "Youth (15-16 years)"
-- 6: "Teenager (16-18 years)"
-- 7: "Young adult (18-26 years)"
-- 8: "Adult (26+ years)"
-- 9: "Dog"
-
-`discounts`
-
-- 1: "BAHNCARD25/RAILPLUS"
-- 3: "BAHNCARD50/RAILPLUS"
-- 5: "BAHNCARD100/RAILPLUS"
-- 8: "VORTEILSCARD/RAILPLUS"
-- 9: "Generalabonnement"
-- 10: "Halbtaxabonnement"
+```js
+{
+  passengerTypes: [
+    { '0': 'Child (0-4 years)' },
+    { '1': 'Child (4-6 years)' },
+    { '2': 'Child (6-12 years)' },
+    { '3': 'Child (12-14 years)' },
+    { '4': 'Youth (14-15 years)' },
+    { '5': 'Youth (15-16 years)' },
+    { '6': 'Teenager (16-18 years)' },
+    { '7': 'Young adult (18-26 years)' },
+    { '8': 'Adult (26+ years)' },
+    { '9': 'Dog' },
+  ],
+  discounts: [
+    { '1': 'BAHNCARD25/RAILPLUS' },
+    { '3': 'BAHNCARD50/RAILPLUS' },
+    { '5': 'BAHNCARD100/RAILPLUS' },
+    { '8': 'VORTEILSCARD/RAILPLUS' },
+    { '9': 'Generalabonnement' },
+    { '10': 'Halbtaxabonnement' },
+  ],
+}
+```
 
 ## Response
 
