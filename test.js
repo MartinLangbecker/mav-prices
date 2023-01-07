@@ -1,5 +1,5 @@
 import * as isRoughlyEqual from 'is-roughly-equal';
-import * as stations from 'mav-stations';
+import { readStations as stations } from 'mav-stations';
 import moment from 'moment-timezone';
 import tape from 'tape';
 import { queryPrices as prices } from './lib/index.js';
@@ -10,10 +10,12 @@ const validDate = (d) => {
   return isRoughlyEqual(36 * hour, +when, +new Date(d));
 };
 
-const findStation = (id) =>
+const findStation = (id) => {
   new Promise((resolve, reject) =>
+    // FIXME
     stations(id).on('error', reject).once('data', resolve)
   );
+};
 
 const validLeg = async (test, t) => {
   test.ok(t, 'missing trip');

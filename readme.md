@@ -51,27 +51,27 @@ With `opt`, you can override the default options, which look like this:
 
 The following traveller and discount types are available:
 
-```json
-passengerTypes:
-	0: "Child (0-4 years)",
-	1: "Child (4-6 years)",
-	2: "Child (6-12 years)",
-	3: "Child (12-14 years)",
-	4: "Youth (14-15 years)",
-	5: "Youth (15-16 years)",
-	6: "Teenager (16-18 years)",
-	7: "Young adult (18-26 years)",
-	8: "Adult (26+ years)",
-	9: "Dog"
+`passengerTypes`
 
-discounts:
-	1: "BAHNCARD25/RAILPLUS"
-	3: "BAHNCARD50/RAILPLUS"
-	5: "BAHNCARD100/RAILPLUS"
-	8: "VORTEILSCARD/RAILPLUS"
-	9: "Generalabonnement"
-	10: "Halbtaxabonnement"
-```
+- 0: "Child (0-4 years)"
+- 1: "Child (4-6 years)"
+- 2: "Child (6-12 years)"
+- 3: "Child (12-14 years)"
+- 4: "Youth (14-15 years)"
+- 5: "Youth (15-16 years)"
+- 6: "Teenager (16-18 years)"
+- 7: "Young adult (18-26 years)"
+- 8: "Adult (26+ years)"
+- 9: "Dog"
+
+`discounts`
+
+- 1: "BAHNCARD25/RAILPLUS"
+- 3: "BAHNCARD50/RAILPLUS"
+- 5: "BAHNCARD100/RAILPLUS"
+- 8: "VORTEILSCARD/RAILPLUS"
+- 9: "Generalabonnement"
+- 10: "Halbtaxabonnement"
 
 ## Response
 
@@ -79,7 +79,7 @@ TODO adjust to MAV output
 
 The result will be a list of [_Friendly Public Transport Format_](https://github.com/public-transport/friendly-public-transport-format) `journey` objects.
 
-With `from = '008000105'`, `to = '008011160'` and `date = new Date('2016-08-17T00:00:00.000Z')`, the result looked like this:
+With `from = '008001071'`, `to = '005501362'` and `date = new Date('2023-01-07T00:00:00+01:00')`, the result looked like this:
 
 ```javascript
 [
@@ -137,6 +137,7 @@ With `from = '008000105'`, `to = '008011160'` and `date = new Date('2016-08-17T0
 ## Similar Projects
 
 - [`mav-stations`](https://github.com/martinlangbecker/mav-stations#mav-stations) – A list of MAV stations.
+- [`db-prices`](https://github.com/juliuste/db-prices#db-prices) – Find journey prices using the DB Sparpreise API.
 
 ## Contributing
 
