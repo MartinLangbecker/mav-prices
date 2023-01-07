@@ -6,58 +6,60 @@ import { queryPrices as prices } from './lib/index.js';
 
 const hour = 60 * 60 * 1000;
 
-const validDate = (d) => {
-  return isRoughlyEqual(36 * hour, +when, +new Date(d));
+const validDate = (date) => {
+  return isRoughlyEqual(36 * hour, +when, +new Date(date));
 };
 
 const findStation = (id) => {
   new Promise((resolve, reject) =>
-    // FIXME
-    stations(id).on('error', reject).once('data', resolve)
+    stations()
+      .on('error', reject)
+      .on('data', (station) => {
+        if (station.id === id) resolve;
+      })
+      .on('end', reject)
   );
 };
 
-const validLeg = async (test, t) => {
-  test.ok(t, 'missing trip');
+const validLeg = async (test, leg) => {
+  test.ok(leg, 'missing leg');
 
-  test.ok(validDate(t.departure), 'invalid departure date');
-  test.ok(t.origin, 'missing `origin`');
-  test.ok(await findStation(t.origin.station), 'station not found');
-  if (t.departurePlatform) test.equal(typeof t.departurePlatform, 'string');
+  test.ok(validDate(leg.departure), 'invalid departure date');
+  test.ok(leg.origin, 'missing `origin`');
+  test.ok(await findStation(leg.origin.id), 'station not found');
+  if (leg.departureDelay) test.equal(typeof leg.departureDelay, 'number');
+  if (leg.departurePlatform) test.equal(typeof leg.departurePlatform, 'string');
 
-  if (!validDate(t.arrival)) console.error(t.arrival, when);
-  test.ok(validDate(t.arrival), 'invalid arrival date');
-  test.ok(t.destination, 'missing `destination`');
-  test.ok(await findStation(t.destination.station), 'station not found');
-  if (t.arrivalPlatform) test.equal(typeof t.arrivalPlatform, 'string');
+  test.ok(validDate(leg.arrival), 'invalid arrival date');
+  test.ok(leg.destination, 'missing `destination`');
+  test.ok(await findStation(leg.destination.id), 'station not found');
+  if (leg.departureDelay) test.equal(typeof leg.departureDelay, 'number');
+  if (leg.arrivalPlatform) test.equal(typeof leg.arrivalPlatform, 'string');
 
-  test.ok(t.line, 'missing line');
-  test.equal(typeof t.line.name, 'string');
-  test.equal(typeof t.line.mode, 'string');
-  test.equal(typeof t.line.product, 'string');
+  test.ok(leg.line, 'missing line');
+  test.equal(typeof leg.line.name, 'string');
+  test.equal(typeof leg.line.mode, 'string');
 };
 
-const validPrice = (test, p) => {
-  test.ok(p, 'missing price');
+const validPrice = (test, price) => {
+  test.ok(price, 'missing price');
 
-  test.equal(p.currency, 'EUR');
-  test.equal(typeof p.amount, 'number');
-  test.ok(p.amount > 0 && p.amount < 1000, 'ridiculous amount');
-  test.equal(typeof p.discount, 'boolean');
-  test.equal(typeof p.anyTrain, 'boolean');
+  test.equal(price.currency, 'EUR');
+  test.equal(typeof price.amount, 'number');
+  test.ok(price.amount > 0 && price.amount < 1000, 'ridiculous amount');
+  if (price.name) test.equal(typeof price.name, 'string');
 };
 
-const validJourney = async (test, j) => {
-  test.ok(j, 'missing route');
+const validJourney = async (test, journey) => {
+  test.ok(journey, 'missing journey');
 
-  test.ok(Array.isArray(j.legs), 'missing legs');
-  test.ok(j.legs.length > 0, 'missing legs');
-  for (const leg of j.legs) {
+  test.ok(Array.isArray(journey.legs), 'missing legs');
+  test.ok(journey.legs.length > 0, 'missing legs');
+  for (const leg of journey.legs) {
     await validLeg(test, leg);
   }
 
-  test.equal(typeof j.nightTrain, 'boolean');
-  validPrice(test, j.price);
+  validPrice(test, journey.price);
 };
 
 const hamburgHbf = '008001071';
@@ -83,7 +85,4 @@ tape('Hamburg Hbf -> Hegyeshalom Hbf', async (test) => {
   test.end();
 });
 
-// todo: opt.class
-// todo: opt.noICETrains
-// todo: opt.transferTime
-// todo: opt.preferFastRoutes
+// todo: test opt parameters

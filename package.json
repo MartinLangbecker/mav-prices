@@ -1,6 +1,6 @@
 {
   "name": "mav-prices",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "type": "module",
   "description": "Find the cheapest fares using the MAV API.",
   "keywords": [
@@ -30,9 +30,7 @@
   },
   "dependencies": {
     "fetch-ponyfill": "^7.1.0",
-    "lodash.minby": "^4.6.0",
-    "moment-timezone": "^0.5.27",
-    "slugg": "^1.2.1"
+    "moment-timezone": "^0.5.27"
   },
   "devDependencies": {
     "depcheck": "1.4.3",
