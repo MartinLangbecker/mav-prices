@@ -1,6 +1,6 @@
 # mav-prices
 
-JavaScript module for finding railway connections prices using the MAV API. Inofficial, using an endpoint by _MAV_. Ask them for permission before using this module in production.
+JavaScript module for **finding railway connections prices** using the [MAV](https://jegy.mav.hu/) API. Inofficial, using an endpoint by _MAV_. Ask them for permission before using this module in production.
 
 Currently only supports international railway connections from/to Hungary.
 
