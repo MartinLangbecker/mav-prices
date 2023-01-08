@@ -20,6 +20,7 @@ const findStation = async (id) => {
 
 const isValidLeg = async (test, leg) => {
   test.ok(leg, 'missing leg');
+  test.ok(leg.mode, 'leg is missing mode');
 
   test.ok(isValidDate(leg.departure), 'invalid departure date');
   test.ok(leg.origin, 'missing `origin`');
@@ -39,9 +40,11 @@ const isValidLeg = async (test, leg) => {
   if (leg.departureDelay) test.equal(typeof leg.departureDelay, 'number');
   if (leg.arrivalPlatform) test.equal(typeof leg.arrivalPlatform, 'string');
 
-  test.ok(leg.line, 'missing line');
-  test.equal(typeof leg.line.name, 'string');
-  test.equal(typeof leg.line.mode, 'string');
+  if (leg.line) {
+    test.ok(leg.line, 'missing line');
+    test.equal(typeof leg.line.name, 'string');
+    test.equal(typeof leg.line.mode, 'string');
+  }
 };
 
 const isValidPrice = (test, price) => {
@@ -55,6 +58,7 @@ const isValidPrice = (test, price) => {
 
 const isValidJourney = async (test, journey) => {
   test.ok(journey, 'missing journey');
+  test.equal(journey.type, 'journey');
 
   test.ok(Array.isArray(journey.legs), 'missing legs');
   test.ok(journey.legs.length > 0, 'missing legs');

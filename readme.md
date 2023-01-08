@@ -35,8 +35,8 @@ With `opt`, you can override the default options, which look like this:
   seatReservation: false,
   directConnection: false,
   longerTransferTime: false, // >=10 minutes transfer time guaranteed
-  isArrivalDate: false, // specify whether date parameter is arrival or departure date (default: departure)
-  intermediateStations: [ // 0-3 objects for intermediate stations
+  isArrivalDate: false, // specify whether date parameter is arrival or departure date
+  intermediateStations: [ // 0-3 objects for intermediate stations (sample object is not set as default)
     {
       stationCode: "008062648", // station ID
       durationOfStay: 5 // in minutes (max: 59 (officially), but more seems to work as well);
@@ -45,8 +45,8 @@ With `opt`, you can override the default options, which look like this:
   ],
   travellers: [ // one or more objects; up to six people and six dogs
     {
-      type: '8',
-      discounts: ["1", "8", "10"], // discount IDs
+      type: '8', // passengerType
+      discounts: [], // discount IDs
     }
   ],
 }
@@ -125,12 +125,7 @@ With `from = '008099970'`, `to = '005501362'` and `date = new Date('2023-01-09T0
         arrival: '2023-01-09T22:25:00+01:00',
         arrivalDelay: 0,
         arrivalPlatform: null,
-        line: {
-          type: 'line',
-          id: '6493390',
-          name: 'railjet xpress 261',
-          mode: 'train',
-        },
+        line: { type: 'line', id: '6493390', name: 'RJX 261', mode: 'train' },
       },
     ],
     price: { amount: 115, currency: 'EUR', name: 'START Europa DE' },
