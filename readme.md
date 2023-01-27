@@ -1,6 +1,6 @@
 # mav-prices
 
-JavaScript module for **finding railway connections prices** using the [MAV](https://jegy.mav.hu/) API. Inofficial, using an endpoint by _MAV_. Ask them for permission before using this module in production.
+JavaScript module for **finding railway connections prices** using the [Magyar Államvasutak](https://jegy.mav.hu/) (MÁV, Hungarian State Railways) API. Inofficial, using an endpoint by _Magyar Államvasutak_. Please ask them for permission before using this module in production.
 
 Currently only supports international railway connections from/to Hungary.
 
@@ -34,8 +34,9 @@ With `opt`, you can override the default options, which look like this:
   class: 2, // 1 or 2 for first or second class
   seatReservation: false,
   directConnection: false,
+  duration: 480, // search for connections within n minutes after departure date (default: undefined; note: 1 API request per 480 minutes will be sent)
   longerTransferTime: false, // >=10 minutes transfer time guaranteed
-  isArrivalDate: false, // specify whether date parameter is arrival or departure date
+  isArrivalDate: false, // specify whether date parameter is arrival or departure date; ignored if duration is set
   intermediateStations: [ // 0-3 objects for intermediate stations (sample object is not set as default)
     {
       stationCode: "008062648", // station ID
@@ -97,10 +98,10 @@ With `from = '008099970'`, `to = '005501362'` and `date = new Date('2023-01-09T0
         destination: { type: 'station', id: '008022534', name: 'Würzburg Hbf' },
         departure: '2023-01-09T12:01:00+01:00',
         departureDelay: 0,
-        departurePlatform: null,
+        departurePlatform: undefined,
         arrival: '2023-01-09T15:28:00+01:00',
         arrivalDelay: 0,
-        arrivalPlatform: null,
+        arrivalPlatform: undefined,
         line: { type: 'line', id: '6528402', name: 'ICE 789', mode: 'train' },
       },
       {
@@ -109,10 +110,10 @@ With `from = '008099970'`, `to = '005501362'` and `date = new Date('2023-01-09T0
         destination: { type: 'station', id: '008101073', name: 'Linz Hbf' },
         departure: '2023-01-09T15:35:00+01:00',
         departureDelay: 0,
-        departurePlatform: null,
+        departurePlatform: undefined,
         arrival: '2023-01-09T19:26:00+01:00',
         arrivalDelay: 0,
-        arrivalPlatform: null,
+        arrivalPlatform: undefined,
         line: { type: 'line', id: '6525223', name: 'ICE 29', mode: 'train' },
       },
       {
@@ -121,10 +122,10 @@ With `from = '008099970'`, `to = '005501362'` and `date = new Date('2023-01-09T0
         destination: { type: 'station', id: '005501362', name: 'Hegyeshalom' },
         departure: '2023-01-09T20:17:00+01:00',
         departureDelay: 0,
-        departurePlatform: null,
+        departurePlatform: undefined,
         arrival: '2023-01-09T22:25:00+01:00',
         arrivalDelay: 0,
-        arrivalPlatform: null,
+        arrivalPlatform: undefined,
         line: { type: 'line', id: '6493390', name: 'RJX 261', mode: 'train' },
       },
     ],

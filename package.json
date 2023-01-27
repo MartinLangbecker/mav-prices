@@ -1,6 +1,6 @@
 {
   "name": "mav-prices",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "type": "module",
   "description": "Find the cheapest fares using the MAV API.",
   "keywords": [
@@ -10,7 +10,8 @@
     "price",
     "offer",
     "railway",
-    "train"
+    "train",
+    "api"
   ],
   "homepage": "https://github.com/martinlangbecker/mav-prices",
   "bugs": "https://github.com/martinlangbecker/mav-prices/issues",

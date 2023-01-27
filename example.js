@@ -16,8 +16,9 @@ const opt = {
   class: 1,
   seatReservation: true,
   directConnection: false,
+  duration: 1080, // search for connection within 18 hours from departure date (should trigger 3 API requests)
   longerTransferTime: false,
-  isArrivalDate: true,
+  isArrivalDate: true, // should be ignored because duration is set
   intermediateStations: [
     {
       stationCode: '008020347', // München Hbf
@@ -45,6 +46,16 @@ prices('008099970', '005501362', when, opt)
 
 // from Aalborg to Szeged with default settings
 prices('008600020', '005517228', when)
+  .then((routes) => {
+    console.log(inspect(routes, { depth: null }));
+  })
+  .catch((err) => {
+    console.error(err);
+    process.exit(1);
+  });
+
+// from WIEN to BUDAPEST departing within the next 8 hours
+prices('008108000', '005510009')
   .then((routes) => {
     console.log(inspect(routes, { depth: null }));
   })
