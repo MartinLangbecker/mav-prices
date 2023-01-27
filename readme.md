@@ -103,6 +103,7 @@ With `from = '008099970'`, `to = '005501362'` and `date = new Date('2023-01-09T0
         arrivalDelay: 0,
         arrivalPlatform: undefined,
         line: { type: 'line', id: '6528402', name: 'ICE 789', mode: 'train' },
+        schedule: '683163',
       },
       {
         mode: 'train',
@@ -115,6 +116,7 @@ With `from = '008099970'`, `to = '005501362'` and `date = new Date('2023-01-09T0
         arrivalDelay: 0,
         arrivalPlatform: undefined,
         line: { type: 'line', id: '6525223', name: 'ICE 29', mode: 'train' },
+        schedule: '690816',
       },
       {
         mode: 'train',
@@ -127,6 +129,7 @@ With `from = '008099970'`, `to = '005501362'` and `date = new Date('2023-01-09T0
         arrivalDelay: 0,
         arrivalPlatform: undefined,
         line: { type: 'line', id: '6493390', name: 'RJX 261', mode: 'train' },
+        schedule: '658654',
       },
     ],
     price: { amount: 115, currency: 'EUR', name: 'START Europa DE' },
