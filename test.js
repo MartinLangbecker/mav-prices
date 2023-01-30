@@ -1,13 +1,12 @@
 import isRoughlyEqual from 'is-roughly-equal';
 import { readStations as stations } from 'mav-stations';
-import moment from 'moment-timezone';
 import test from 'tape';
 import { queryPrices as prices } from './lib/index.js';
 
-const hour = 60 * 60 * 1000;
+const HOUR_IN_MILLIS = 60 * 60 * 1000;
 
 const isValidDate = (date) => {
-  return isRoughlyEqual(36 * hour, +when, +new Date(date));
+  return isRoughlyEqual(36 * HOUR_IN_MILLIS, +morning, +new Date(date));
 };
 
 const findStation = async (id) => {
@@ -45,6 +44,11 @@ const isValidLeg = async (test, leg) => {
     test.equal(typeof leg.line.name, 'string');
     test.equal(typeof leg.line.mode, 'string');
   }
+
+  if (leg.schedule) {
+    test.ok(leg.schedule, 'missing schedule');
+    test.equal(typeof leg.schedule, 'string');
+  }
 };
 
 const isValidPrice = (test, price) => {
@@ -69,20 +73,26 @@ const isValidJourney = async (test, journey) => {
   isValidPrice(test, journey.price);
 };
 
+const erfurtHbf = '008016043';
 const hamburgHbf = '008001071';
 const hegyeshalom = '005501362';
+const wienHbf = '008101003';
 
 // some Monday in the future
-const when = moment
-  .tz(Date.now(), 'Europe/Berlin')
-  .hour(10)
-  .minute(30)
-  .second(0)
-  .day(1 + 7)
-  .toDate();
+const midnight = new Date();
+midnight.setDate(midnight.getDate() + (1 + 7) - midnight.getDay());
+midnight.setHours(0);
+midnight.setMinutes(0);
+midnight.setSeconds(0);
 
-test('Hamburg Hbf -> Hegyeshalom Hbf', async (test) => {
-  const results = await prices(hamburgHbf, hegyeshalom, when);
+const morning = new Date();
+morning.setDate(morning.getDate() + (1 + 7) - morning.getDay());
+morning.setHours(10);
+morning.setMinutes(30);
+morning.setSeconds(0);
+
+test('Hamburg Hbf -> Hegyeshalom', async (test) => {
+  const results = await prices(hamburgHbf, hegyeshalom, morning);
   test.ok(Array.isArray(results));
   test.ok(results.length > 0, 'no results');
   for (const result of results) {
@@ -92,4 +102,28 @@ test('Hamburg Hbf -> Hegyeshalom Hbf', async (test) => {
   test.end();
 });
 
-// TODO: test opt parameters
+test('Erfurt Hbf -> Hegyeshalom via Wien Hbf', async (test) => {
+  const opt = {
+    duration: 11 * 60,
+    intermediateStations: [
+      {
+        stationCode: wienHbf,
+        durationOfStay: 0,
+      },
+    ],
+  };
+  const results = await prices(erfurtHbf, hegyeshalom, midnight, opt);
+  test.ok(Array.isArray(results));
+  test.ok(results.length > 0, 'no results');
+  for (const result of results) {
+    await isValidJourney(test, result);
+    test.ok(
+      new Date(result.legs[0].departure).getTime() <=
+        midnight.getTime() + (opt.duration / 60) * HOUR_IN_MILLIS
+    );
+  }
+
+  test.end();
+});
+
+// TODO: test further opt parameters

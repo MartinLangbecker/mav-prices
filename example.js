@@ -1,16 +1,12 @@
-import moment from 'moment-timezone';
 import { inspect } from 'util';
 import { queryPrices as prices } from './lib/index.js';
 
-const tz = 'Europe/Berlin';
 // some Monday in the future
-const when = moment
-  .tz(Date.now(), tz)
-  .hour(20)
-  .minute(30)
-  .second(0)
-  .day(1 + 7)
-  .toDate();
+const when = new Date();
+when.setDate(when.getDate() + (1 + 7) - when.getDay());
+when.setHours(0);
+when.setMinutes(0);
+when.setSeconds(0);
 
 const opt = {
   class: 1,

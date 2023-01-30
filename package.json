@@ -1,6 +1,6 @@
 {
   "name": "mav-prices",
-  "version": "0.3.4",
+  "version": "0.3.5",
   "type": "module",
   "description": "Find the cheapest fares using the MAV API.",
   "keywords": [
@@ -30,8 +30,7 @@
     "test": "npm run lint && npm run check-deps && node test"
   },
   "dependencies": {
-    "fetch-ponyfill": "^7.1.0",
-    "moment-timezone": "^0.5.27"
+    "fetch-ponyfill": "^7.1.0"
   },
   "devDependencies": {
     "depcheck": "1.4.3",
