@@ -68,14 +68,16 @@ The following traveller and discount types are available for international journ
     { '7': 'Young adult (18-26 years)' },
     { '8': 'Adult (26+ years)' },
     { '9': 'Dog' },
+    { '10': 'Bicylce' },
   ],
   discounts: [
-    { '1': 'BAHNCARD25/RAILPLUS' },
-    { '3': 'BAHNCARD50/RAILPLUS' },
-    { '5': 'BAHNCARD100/RAILPLUS' },
-    { '8': 'VORTEILSCARD/RAILPLUS' },
+    { '1': 'BahnCard 25' },
+    { '3': 'BahnCard 50' },
+    { '5': 'BahnCard 100' },
+    { '8': 'Vorteilscard' },
     { '9': 'Generalabonnement' },
     { '10': 'Halbtaxabonnement' },
+    { '11': 'Klimaticket' },
   ],
 }
 ```
