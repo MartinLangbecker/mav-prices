@@ -44,7 +44,7 @@ With `opt`, you can override the default options, which look like this:
                         // set to 0 if train should at least pass through station
     }
   ],
-  travellers: [ // one or more objects; up to six people and six dogs
+  travellers: [ // one or more objects; up to six people and six dogs/bicycles
     {
       type: '8', // passengerType
       discounts: [], // discount IDs
@@ -53,7 +53,7 @@ With `opt`, you can override the default options, which look like this:
 }
 ```
 
-The following traveller and discount types are available for international journeys:
+The following passenger and discount types are available for international journeys:
 
 ```js
 {
