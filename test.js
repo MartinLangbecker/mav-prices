@@ -56,7 +56,7 @@ const isValidPrice = (test, price) => {
 
   test.equal(price.currency, 'EUR');
   test.equal(typeof price.amount, 'number');
-  test.ok(price.amount > 0 && price.amount < 1000, 'ridiculous amount');
+  test.ok(price.amount > 0 && price.amount < 1000, 'unlikely amount');
   if (price.name) test.equal(typeof price.name, 'string');
 };
 
@@ -108,7 +108,7 @@ test('Erfurt Hbf -> Hegyeshalom via Wien Hbf', async (test) => {
     intermediateStations: [
       {
         stationCode: wienHbf,
-        durationOfStay: 0,
+        durationOfStay: 1,
       },
     ],
   };
