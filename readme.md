@@ -68,7 +68,7 @@ The following passenger and discount types are available for international journ
     { '7': 'Young adult (18-26 years)' },
     { '8': 'Adult (26+ years)' },
     { '9': 'Dog' },
-    { '10': 'Bicylce' },
+    { '10': 'Bicycle' },
   ],
   discounts: [
     { '1': 'BahnCard 25' },

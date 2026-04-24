@@ -1,6 +1,6 @@
 {
   "name": "mav-prices",
-  "version": "0.4.1",
+  "version": "0.4.2",
   "type": "module",
   "description": "Find the cheapest fares using the MAV API.",
   "keywords": [
@@ -19,28 +19,29 @@
   "license": "ISC",
   "author": "Martin Langbecker <martin.langbecker@gmail.com>",
   "files": [
-    "lib/*"
+    "lib/*",
+    "example.js"
   ],
   "main": "lib/index.js",
+  "exports": "./lib/index.js",
   "scripts": {
     "check-deps": "depcheck",
-    "fix": "eslint --fix lib test.js",
-    "lint": "eslint lib test.js",
+    "fix": "eslint --fix lib test.js example.js",
+    "lint": "eslint lib test.js example.js",
     "prepublishOnly": "npm run lint && npm run check-deps && npm test",
     "test": "node test.js | tap-min"
   },
-  "dependencies": {
-    "fetch-ponyfill": "^7.1.0"
-  },
   "devDependencies": {
-    "depcheck": "1.4.3",
-    "eslint": "^8.57.0",
+    "@eslint/js": "^10.0.1",
+    "depcheck": "^1.4.7",
+    "eslint": "^10.2.1",
+    "globals": "^17.5.0",
     "is-roughly-equal": "^0.1.0",
-    "mav-stations": "^0.3.2",
+    "mav-stations": "^0.3.5",
     "tap-min": "^3.0.0",
-    "tape": "^5.8.1"
+    "tape": "^5.9.0"
   },
   "engines": {
-    "node": ">=19"
+    "node": ">=18"
   }
 }

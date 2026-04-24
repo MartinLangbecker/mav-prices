@@ -1,20 +1,18 @@
 import { inspect } from 'util';
-import { queryPrices as prices } from './lib/index.js';
+import { queryPrices } from './lib/index.js';
 
 // some Monday in the future
 const when = new Date();
-when.setDate(when.getDate() + (1 + 7) - when.getDay());
-when.setHours(0);
-when.setMinutes(0);
-when.setSeconds(0);
+when.setDate(when.getDate() + ((1 + 7 - when.getDay()) % 7 || 7));
+when.setHours(0, 0, 0, 0);
 
 const opt = {
   class: 1,
   seatReservation: true,
   directConnection: false,
-  duration: 1080, // search for connection within 18 hours from departure date (should trigger 3 API requests)
+  duration: 1080, // search for connections within 18 hours from departure date (triggers 3 API requests)
   longerTransferTime: false,
-  isArrivalDate: true, // should be ignored because duration is set
+  isArrivalDate: true, // ignored because duration is set
   intermediateStations: [
     {
       stationCode: '008020347', // München Hbf
@@ -22,7 +20,6 @@ const opt = {
     },
   ],
   travellers: [
-    // one or more objects; up to six people and six dogs
     {
       type: '7', // young adult
       discounts: ['1', '8'], // BahnCard25/Railplus & Vorteilscard/Railplus
@@ -31,30 +28,24 @@ const opt = {
 };
 
 // from Hamburg Hbf to Hegyeshalom with custom options
-prices('008099970', '005501362', when, opt)
-  .then((routes) => {
-    console.log(inspect(routes, { depth: null }));
-  })
+queryPrices('008099970', '005501362', when, opt)
+  .then((journeys) => console.log(inspect(journeys, { depth: null })))
   .catch((err) => {
     console.error(err);
     process.exit(1);
   });
 
 // from Aalborg to Szeged with default settings
-prices('008600020', '005517228', when)
-  .then((routes) => {
-    console.log(inspect(routes, { depth: null }));
-  })
+queryPrices('008600020', '005517228', when)
+  .then((journeys) => console.log(inspect(journeys, { depth: null })))
   .catch((err) => {
     console.error(err);
     process.exit(1);
   });
 
-// from WIEN to BUDAPEST departing within the next 8 hours
-prices('008108000', '005510009')
-  .then((routes) => {
-    console.log(inspect(routes, { depth: null }));
-  })
+// from Wien to Budapest departing within the next 8 hours
+queryPrices('008108000', '005510009')
+  .then((journeys) => console.log(inspect(journeys, { depth: null })))
   .catch((err) => {
     console.error(err);
     process.exit(1);
