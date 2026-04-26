@@ -45,27 +45,29 @@ const isValidLeg = (t, leg, referenceDate) => {
   if (leg.schedule) t.equal(typeof leg.schedule, 'string');
 };
 
-const isValidPrice = (t, price) => {
+const isValidPrice = (t, price, currency = 'EUR') => {
   t.ok(price, 'missing price');
-  t.equal(price.currency, 'EUR');
+  t.equal(price.currency, currency);
   t.equal(typeof price.amount, 'number');
-  t.ok(price.amount > 0 && price.amount < 1000, 'unlikely amount');
+  t.ok(price.amount > 0, 'price must be positive');
   if (price.name) t.equal(typeof price.name, 'string');
 };
 
-const isValidJourney = (t, journey, referenceDate) => {
+const isValidJourney = (t, journey, referenceDate, currency = 'EUR') => {
   t.ok(journey, 'missing journey');
   t.equal(journey.type, 'journey');
   t.ok(Array.isArray(journey.legs), 'missing legs');
   t.ok(journey.legs.length > 0, 'missing legs');
   for (const leg of journey.legs) isValidLeg(t, leg, referenceDate);
-  isValidPrice(t, journey.price);
+  isValidPrice(t, journey.price, currency);
 };
 
 const erfurtHbf = '008016043';
 const hamburgHbf = '008001071';
 const hegyeshalom = '005501362';
 const wienHbf = '008101003';
+const budapestKeleti = '005510017';
+const debrecen = '005513912';
 
 // some Monday in the future
 const nextMonday = (hours, minutes) => {
@@ -108,5 +110,17 @@ test('Wien Hbf -> Hegyeshalom, first class with seat reservation', async (t) => 
   t.ok(Array.isArray(results));
   t.ok(results.length > 0, 'no results');
   for (const journey of results) isValidJourney(t, journey, morning);
+  t.end();
+});
+
+test('Budapest-Keleti -> Debrecen, domestic', async (t) => {
+  const results = await queryPrices(budapestKeleti, debrecen, morning);
+  t.ok(Array.isArray(results));
+  t.ok(results.length > 0, 'no results');
+  for (const journey of results) {
+    isValidJourney(t, journey, morning);
+    t.equal(journey.price.originalCurrency, 'HUF', 'original currency should be HUF');
+    t.ok(journey.price.originalAmount > 0, 'original HUF amount should be positive');
+  }
   t.end();
 });

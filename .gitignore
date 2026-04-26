@@ -7,3 +7,6 @@ npm-debug.log
 
 .prettierrc
 .idea
+
+tmp/
+coverage/

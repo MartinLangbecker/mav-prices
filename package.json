@@ -1,6 +1,6 @@
 {
   "name": "mav-prices",
-  "version": "0.5.0",
+  "version": "0.6.0",
   "type": "module",
   "description": "Find the cheapest fares using the MAV API.",
   "keywords": [

@@ -1,8 +1,8 @@
 # mav-prices
 
-JavaScript module for **finding railway connections prices** using the [Magyar Államvasutak](https://jegy.mav.hu/) (MÁV, Hungarian State Railways) API. Inofficial, using an endpoint by _Magyar Államvasutak_. Please ask them for permission before using this module in production.
+JavaScript module for **finding railway connection prices** using the [Magyar Államvasutak](https://jegy.mav.hu/) (MÁV, Hungarian State Railways) API. Inofficial, using an endpoint by _Magyar Államvasutak_. Please ask them for permission before using this module in production.
 
-Currently only supports international railway connections from/to Hungary.
+Supports both **international** connections from/to Hungary and **domestic** Hungarian connections. The MAV API requires at least one Hungarian station as departure or destination for international queries.
 
 [![npm version](https://img.shields.io/npm/v/mav-prices.svg)](https://www.npmjs.com/package/mav-prices)
 ![ISC-licensed](https://img.shields.io/github/license/martinlangbecker/mav-prices.svg)
@@ -44,13 +44,21 @@ With `opt`, you can override the default options, which look like this:
                         // set to 0 if train should at least pass through station
     }
   ],
-  travellers: [ // one or more objects; up to six people and six dogs/bicycles
+  travellers: [ // one or more objects; up to six people
     {
-      type: '8', // passengerType
-      discounts: [], // discount IDs
+      age: 30, // passenger age — automatically selects the correct type for domestic/international
+      // type: '8', // @deprecated — use `age` instead; type IDs differ between domestic and international
+      discounts: [], // discount IDs (different IDs for domestic and international — see below)
     }
   ],
 }
+```
+
+Domestic mode is detected automatically when both station codes start with `0055` (Hungarian). Prices are converted to EUR using the MÁV exchange rate; the original HUF amount is included as `originalAmount`/`originalCurrency`.
+
+```js
+// Budapest-Keleti to Debrecen, one adult — domestic is auto-detected
+queryPrices('005510017', '005513912', when).then(…)
 ```
 
 <details>
@@ -68,8 +76,6 @@ With `opt`, you can override the default options, which look like this:
     { '6': 'Teenager (16-18 years)' },
     { '7': 'Young adult (18-26 years)' },
     { '8': 'Adult (26+ years)' },
-    { '9': 'Dog' },
-    { '10': 'Bicycle' },
   ],
   discounts: [
     // German
@@ -104,6 +110,61 @@ With `opt`, you can override the default options, which look like this:
     { '26': 'FIP free pass' },
     { '27': 'FIP single-country free pass' },
     { '28': 'FIP ID card' },
+  ],
+}
+```
+
+</details>
+
+<details>
+<summary>Available passenger and discount types for domestic journeys</summary>
+
+```js
+{
+  passengerTypes: [
+    { '0': 'Child (0-3 years)' },
+    { '1': 'Child (3-6 years)' },
+    { '2': 'Child (6-14 years)' },
+    { '3': 'Child (14-18 years)' },
+    { '4': 'Youth (18-25 years)' },
+    { '5': 'Adult (25-65 years)' },
+    { '6': 'Pensioner/Senior (65+ years)' },
+  ],
+  discounts: [
+    // 50% discounts
+    { '1': 'START Club card (50%)' },
+    { '2': 'START Club fellow traveler (50%)' },
+    { '3': 'Civil servants (50%)' },
+    { '4': 'FIP 50% domestic 2nd class' },
+    { '5': 'FIP 50% domestic 1st class' },
+    // Passes
+    { '6': 'Hungary Pass' },
+    { '7': 'Hungary 24 hour ticket (free)' },
+    { '8': 'BKK pass/ticket for HÉV (free)' },
+    // Free-of-charge
+    { '9': 'International ticket/pass 2nd class (free)' },
+    { '10': 'International ticket/pass 1st class (free)' },
+    { '11': 'Member of a large family (free)' },
+    { '12': 'Persons with disabilities (free)' },
+    { '13': 'Pensioners\' Travel Certificate (free)' },
+    { '14': 'Hungarian Pass for Foreign Citizen (free)' },
+    { '15': 'Certificate of refugees (free)' },
+    { '16': 'Military care certificate - family member (free)' },
+    // Railway employee
+    { '17': 'MÁV-START service card 2nd class (free)' },
+    { '18': 'MÁV-START service card 1st class (free)' },
+    { '19': 'MÁV-START relatives 2nd class (free)' },
+    { '20': 'MÁV-START relatives 1st class (free)' },
+    { '21': 'GYSEV service card 2nd class (free)' },
+    { '22': 'GYSEV service card 1st class (free)' },
+    { '23': 'GYSEV relatives 2nd class (free)' },
+    { '24': 'GYSEV relatives 1st class (free)' },
+    { '25': 'OSZZSD railway document (free)' },
+    { '26': 'U signed service pass (free)' },
+    { '27': 'VOLÁN service card (free)' },
+    { '28': 'Police Standby Certificate (free)' },
+    { '29': 'BKV employee' },
+    { '30': 'BKK employee' },
   ],
 }
 ```
@@ -186,7 +247,19 @@ With `from = '008099970'`, `to = '005501362'` and `date = new Date('2023-01-09T0
 ];
 ```
 
-## Similar Projects
+For domestic connections, prices are converted from HUF to EUR using the MÁV exchange rate. The original amount is preserved:
+
+```js
+price: {
+  amount: 13.82,          // converted to EUR
+  currency: 'EUR',
+  name: 'Ticket',
+  originalAmount: 5250,   // original HUF price
+  originalCurrency: 'HUF',
+}
+```
+
+## Related
 
 - [`mav-stations`](https://github.com/martinlangbecker/mav-stations#mav-stations) – A list of MAV stations.
 - [`db-prices`](https://github.com/juliuste/db-prices#db-prices) – Find journey prices using the DB Sparpreise API.
