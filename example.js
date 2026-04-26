@@ -27,6 +27,10 @@ const opt = {
   ],
 };
 
+// The MAV API requires at least one Hungarian station as departure or destination.
+// Hegyeshalom is the closest Hungarian station to Western/Central Europe, so it can
+// serve as an "anchor" for querying routes between non-Hungarian cities — the real
+// origin/destination is then specified as an intermediate station with durationOfStay: 0.
 // from Hamburg Hbf to Hegyeshalom with custom options
 queryPrices('008099970', '005501362', when, opt)
   .then((journeys) => console.log(inspect(journeys, { depth: null })))

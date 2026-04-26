@@ -53,7 +53,8 @@ With `opt`, you can override the default options, which look like this:
 }
 ```
 
-The following passenger and discount types are available for international journeys:
+<details>
+<summary>Available passenger and discount types for international journeys</summary>
 
 ```js
 {
@@ -71,16 +72,43 @@ The following passenger and discount types are available for international journ
     { '10': 'Bicycle' },
   ],
   discounts: [
+    // German
     { '1': 'BahnCard 25' },
     { '3': 'BahnCard 50' },
     { '5': 'BahnCard 100' },
+    // Austrian
     { '8': 'Vorteilscard' },
+    { '11': 'Klimaticket' },
+    { '12': 'Österreichcard' },
+    // Swiss
     { '9': 'Generalabonnement' },
     { '10': 'Halbtaxabonnement' },
-    { '11': 'Klimaticket' },
+    { '13': 'SwissPass 50%' },
+    { '14': 'SwissPass 100%' },
+    // Czech/Slovak
+    { '15': 'MAXI KLASIK' },
+    { '16': 'InKarta 25' },
+    { '17': 'InKarta 50' },
+    { '18': 'InKarta 100' },
+    // Hungarian
+    { '19': 'START Klub' },
+    { '20': 'START Klub VIP' },
+    { '21': 'Bérlet (season ticket)' },
+    // Interrail
+    { '22': 'Interrail/Eurail Pass (single-country)' },
+    // Companion
+    { '23': 'Wheelchair companion' },
+    { '24': 'Blind person companion' },
+    // Railway employee
+    { '25': 'MÁV employee' },
+    { '26': 'FIP free pass' },
+    { '27': 'FIP single-country free pass' },
+    { '28': 'FIP ID card' },
   ],
 }
 ```
+
+</details>
 
 ## Response
 

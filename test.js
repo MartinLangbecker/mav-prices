@@ -22,13 +22,18 @@ const isValidLeg = (t, leg, referenceDate) => {
 
   t.ok(isValidDate(referenceDate, leg.departure), 'invalid departure date');
   t.ok(leg.origin, 'missing `origin`');
-  t.ok(stationIds.has(leg.origin.id), `station ${leg.origin.id} not found`);
+  t.equal(typeof leg.origin.id, 'string', 'origin.id must be a string');
+  t.ok(leg.origin.id.length > 0, 'origin.id must not be empty');
+  // mav-stations only covers searchable stations, not every intermediate stop
+  t.comment(!stationIds.has(leg.origin.id) ? `note: station ${leg.origin.id} (${leg.origin.name}) not in mav-stations` : '');
   if (leg.departureDelay) t.equal(typeof leg.departureDelay, 'number');
   if (leg.departurePlatform) t.equal(typeof leg.departurePlatform, 'string');
 
   t.ok(isValidDate(referenceDate, leg.arrival), 'invalid arrival date');
   t.ok(leg.destination, 'missing `destination`');
-  t.ok(stationIds.has(leg.destination.id), `station ${leg.destination.id} not found`);
+  t.equal(typeof leg.destination.id, 'string', 'destination.id must be a string');
+  t.ok(leg.destination.id.length > 0, 'destination.id must not be empty');
+  t.comment(!stationIds.has(leg.destination.id) ? `note: station ${leg.destination.id} (${leg.destination.name}) not in mav-stations` : '');
   if (leg.arrivalDelay) t.equal(typeof leg.arrivalDelay, 'number');
   if (leg.arrivalPlatform) t.equal(typeof leg.arrivalPlatform, 'string');
 
