@@ -51,6 +51,8 @@ const isValidPrice = (t, price, currency = 'EUR') => {
   t.equal(typeof price.amount, 'number');
   t.ok(price.amount > 0, 'price must be positive');
   if (price.name) t.equal(typeof price.name, 'string');
+  t.ok('trainDependent' in price, 'missing trainDependent');
+  t.ok('refundable' in price, 'missing refundable');
 };
 
 const isValidJourney = (t, journey, referenceDate, currency = 'EUR') => {
@@ -122,5 +124,24 @@ test('Budapest-Keleti -> Debrecen, domestic', async (t) => {
     t.equal(journey.price.originalCurrency, 'HUF', 'original currency should be HUF');
     t.ok(journey.price.originalAmount > 0, 'original HUF amount should be positive');
   }
+  t.end();
+});
+
+
+test('Wien Hbf -> Hegyeshalom, raw option', async (t) => {
+  const results = await queryPrices(wienHbf, hegyeshalom, morning, { raw: true });
+  t.ok(results.length > 0, 'no results');
+  for (const journey of results) {
+    isValidJourney(t, journey, morning);
+    t.ok(journey.raw, 'missing raw data');
+    t.equal(typeof journey.raw.offerIdentity, 'string', 'missing offerIdentity');
+    t.ok(journey.raw.offerIdentity.length > 0, 'empty offerIdentity');
+    t.equal(typeof journey.raw.serializedOfferData, 'string', 'missing serializedOfferData');
+    t.ok(journey.raw.serializedOfferData.length > 0, 'empty serializedOfferData');
+    t.ok(Array.isArray(journey.raw.trainIds), 'missing trainIds');
+  }
+  // without raw — no raw field
+  const results2 = await queryPrices(wienHbf, hegyeshalom, morning);
+  t.equal(results2[0].raw, undefined, 'raw should be absent when not requested');
   t.end();
 });

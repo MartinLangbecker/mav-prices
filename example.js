@@ -22,7 +22,7 @@ const opt = {
   travellers: [
     {
       type: '7', // young adult
-      discounts: ['1', '8'], // BahnCard25/Railplus & Vorteilscard/Railplus
+      discounts: ['1', '8'], // BahnCard 25 & Vorteilscard
     },
   ],
 };

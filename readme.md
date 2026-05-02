@@ -37,6 +37,7 @@ With `opt`, you can override the default options, which look like this:
   duration: 480, // search for connections within n minutes after departure date (default: undefined; note: 1 API request per 480 minutes will be sent)
   longerTransferTime: false, // >=10 minutes transfer time guaranteed
   isArrivalDate: false, // specify whether date parameter is arrival or departure date; ignored if duration is set
+  raw: false, // include raw API data (offerIdentity, serializedOfferData, trainIds) for booking workflows
   intermediateStations: [ // 0-3 objects for intermediate stations (sample object is not set as default)
     {
       stationCode: "008062648", // station ID
@@ -47,8 +48,7 @@ With `opt`, you can override the default options, which look like this:
   travellers: [ // one or more objects; up to six people
     {
       age: 30, // passenger age — automatically selects the correct type for domestic/international
-      // type: '8', // @deprecated — use `age` instead; type IDs differ between domestic and international
-      discounts: [], // discount IDs (different IDs for domestic and international — see below)
+      discounts: [], // discount IDs — see below; inapplicable discounts are silently ignored
     }
   ],
 }
@@ -62,111 +62,108 @@ queryPrices('005510017', '005513912', when).then(…)
 ```
 
 <details>
-<summary>Available passenger and discount types for international journeys</summary>
+<summary>Available passenger types (auto-selected via `age`)</summary>
 
-```js
-{
-  passengerTypes: [
-    { '0': 'Child (0-4 years)' },
-    { '1': 'Child (4-6 years)' },
-    { '2': 'Child (6-12 years)' },
-    { '3': 'Child (12-14 years)' },
-    { '4': 'Youth (14-15 years)' },
-    { '5': 'Youth (15-16 years)' },
-    { '6': 'Teenager (16-18 years)' },
-    { '7': 'Young adult (18-26 years)' },
-    { '8': 'Adult (26+ years)' },
-  ],
-  discounts: [
-    // German
-    { '1': 'BahnCard 25' },
-    { '3': 'BahnCard 50' },
-    { '5': 'BahnCard 100' },
-    // Austrian
-    { '8': 'Vorteilscard' },
-    { '11': 'Klimaticket' },
-    { '12': 'Österreichcard' },
-    // Swiss
-    { '9': 'Generalabonnement' },
-    { '10': 'Halbtaxabonnement' },
-    { '13': 'SwissPass 50%' },
-    { '14': 'SwissPass 100%' },
-    // Czech/Slovak
-    { '15': 'MAXI KLASIK' },
-    { '16': 'InKarta 25' },
-    { '17': 'InKarta 50' },
-    { '18': 'InKarta 100' },
-    // Hungarian
-    { '19': 'START Klub' },
-    { '20': 'START Klub VIP' },
-    { '21': 'Bérlet (season ticket)' },
-    // Interrail
-    { '22': 'Interrail/Eurail Pass (single-country)' },
-    // Companion
-    { '23': 'Wheelchair companion' },
-    { '24': 'Blind person companion' },
-    // Railway employee
-    { '25': 'MÁV employee' },
-    { '26': 'FIP free pass' },
-    { '27': 'FIP single-country free pass' },
-    { '28': 'FIP ID card' },
-  ],
-}
-```
+Passenger types are resolved automatically from the `age` field. The correct type for domestic or international is selected based on the detected route.
+
+**International:**
+| Type | Age range |
+|------|-----------|
+| Child | 0–3 |
+| Child | 4–5 |
+| Child | 6–11 |
+| Child | 12–13 |
+| Youth | 14 |
+| Youth | 15 |
+| Teenager | 16–17 |
+| Young adult | 18–25 |
+| Adult | 26+ |
+
+**Domestic:**
+| Type | Age range |
+|------|-----------|
+| Child | 0–2 |
+| Child | 3–5 |
+| Child | 6–13 |
+| Youth | 14–17 |
+| Youth | 18–24 |
+| Adult | 25–64 |
+| Senior | 65+ |
 
 </details>
 
 <details>
-<summary>Available passenger and discount types for domestic journeys</summary>
+<summary>Available discount IDs</summary>
+
+Discounts that don't apply to the detected mode (domestic/international) are silently ignored.
 
 ```js
-{
-  passengerTypes: [
-    { '0': 'Child (0-3 years)' },
-    { '1': 'Child (3-6 years)' },
-    { '2': 'Child (6-14 years)' },
-    { '3': 'Child (14-18 years)' },
-    { '4': 'Youth (18-25 years)' },
-    { '5': 'Adult (25-65 years)' },
-    { '6': 'Pensioner/Senior (65+ years)' },
-  ],
-  discounts: [
-    // 50% discounts
-    { '1': 'START Club card (50%)' },
-    { '2': 'START Club fellow traveler (50%)' },
-    { '3': 'Civil servants (50%)' },
-    { '4': 'FIP 50% domestic 2nd class' },
-    { '5': 'FIP 50% domestic 1st class' },
-    // Passes
-    { '6': 'Hungary Pass' },
-    { '7': 'Hungary 24 hour ticket (free)' },
-    { '8': 'BKK pass/ticket for HÉV (free)' },
-    // Free-of-charge
-    { '9': 'International ticket/pass 2nd class (free)' },
-    { '10': 'International ticket/pass 1st class (free)' },
-    { '11': 'Member of a large family (free)' },
-    { '12': 'Persons with disabilities (free)' },
-    { '13': 'Pensioners\' Travel Certificate (free)' },
-    { '14': 'Hungarian Pass for Foreign Citizen (free)' },
-    { '15': 'Certificate of refugees (free)' },
-    { '16': 'Military care certificate - family member (free)' },
-    // Railway employee
-    { '17': 'MÁV-START service card 2nd class (free)' },
-    { '18': 'MÁV-START service card 1st class (free)' },
-    { '19': 'MÁV-START relatives 2nd class (free)' },
-    { '20': 'MÁV-START relatives 1st class (free)' },
-    { '21': 'GYSEV service card 2nd class (free)' },
-    { '22': 'GYSEV service card 1st class (free)' },
-    { '23': 'GYSEV relatives 2nd class (free)' },
-    { '24': 'GYSEV relatives 1st class (free)' },
-    { '25': 'OSZZSD railway document (free)' },
-    { '26': 'U signed service pass (free)' },
-    { '27': 'VOLÁN service card (free)' },
-    { '28': 'Police Standby Certificate (free)' },
-    { '29': 'BKV employee' },
-    { '30': 'BKK employee' },
-  ],
-}
+discounts: [
+  // German
+  { '1': 'BahnCard 25' },                              // international only
+  { '3': 'BahnCard 50' },                              // international only
+  { '5': 'BahnCard 100' },                             // international only
+  // Austrian
+  { '8': 'Vorteilscard' },                             // international only
+  { '11': 'Klimaticket' },                             // international only
+  { '12': 'Österreichcard' },                          // international only
+  // Swiss
+  { '9': 'Generalabonnement' },                        // international only
+  { '10': 'Halbtaxabonnement' },                       // international only
+  { '13': 'SwissPass 50%' },                           // international only
+  { '14': 'SwissPass 100%' },                          // international only
+  // Czech/Slovak
+  { '15': 'MAXI KLASIK' },                             // international only
+  { '16': 'InKarta 25' },                              // international only
+  { '17': 'InKarta 50' },                              // international only
+  { '18': 'InKarta 100' },                             // international only
+  // Hungarian
+  { '19': 'START Klub' },                              // both
+  { '20': 'START Klub VIP' },                          // international only
+  { '21': 'Bérlet (season ticket)' },                  // international only
+  // Interrail
+  { '22': 'Interrail/Eurail Pass (single-country)' },  // international only
+  // Companion
+  { '23': 'Wheelchair companion' },                    // international only
+  { '24': 'Blind person companion' },                  // international only
+  // Railway employee / FIP
+  { '25': 'MÁV employee' },                            // international only
+  { '26': 'FIP free pass' },                           // international only
+  { '27': 'FIP single-country free pass' },            // international only
+  { '28': 'FIP ID card' },                             // both (2nd class domestic)
+  // Domestic discounts
+  { '29': 'START Club fellow traveler (50%)' },        // domestic only
+  { '30': 'Civil servants (50%)' },                    // domestic only
+  { '31': 'FIP 50% domestic 1st class' },              // domestic only
+  // Domestic passes
+  { '32': 'Hungary Pass' },                            // domestic only
+  { '33': 'Hungary 24 hour ticket (free)' },           // domestic only
+  { '34': 'BKK pass/ticket for HÉV (free)' },         // domestic only
+  // Domestic free-of-charge
+  { '35': 'International ticket/pass 2nd class (free)' }, // domestic only
+  { '36': 'International ticket/pass 1st class (free)' }, // domestic only
+  { '37': 'Member of a large family (free)' },         // domestic only
+  { '38': 'Persons with disabilities (free)' },        // domestic only
+  { '39': 'Pensioners\' Travel Certificate (free)' },  // domestic only
+  { '40': 'Hungarian Pass for Foreign Citizen (free)' }, // domestic only
+  { '41': 'Certificate of refugees (free)' },          // domestic only
+  { '42': 'Military care certificate - family member (free)' }, // domestic only
+  // Domestic railway employee
+  { '43': 'MÁV-START service card 2nd class (free)' }, // domestic only
+  { '44': 'MÁV-START service card 1st class (free)' }, // domestic only
+  { '45': 'MÁV-START relatives 2nd class (free)' },    // domestic only
+  { '46': 'MÁV-START relatives 1st class (free)' },    // domestic only
+  { '47': 'GYSEV service card 2nd class (free)' },     // domestic only
+  { '48': 'GYSEV service card 1st class (free)' },     // domestic only
+  { '49': 'GYSEV relatives 2nd class (free)' },        // domestic only
+  { '50': 'GYSEV relatives 1st class (free)' },        // domestic only
+  { '51': 'OSZZSD railway document (free)' },          // domestic only
+  { '52': 'U signed service pass (free)' },            // domestic only
+  { '53': 'VOLÁN service card (free)' },               // domestic only
+  { '54': 'Police Standby Certificate (free)' },       // domestic only
+  { '55': 'BKV employee' },                            // domestic only
+  { '56': 'BKK employee' },                            // domestic only
+]
 ```
 
 </details>
@@ -241,7 +238,7 @@ With `from = '008099970'`, `to = '005501362'` and `date = new Date('2023-01-09T0
         schedule: '658654',
       },
     ],
-    price: { amount: 115, currency: 'EUR', name: 'START Europa DE' },
+    price: { amount: 115, currency: 'EUR', name: 'START Europa DE', trainDependent: true, refundable: false },
   },
   // ...
 ];
@@ -254,6 +251,8 @@ price: {
   amount: 13.82,          // converted to EUR
   currency: 'EUR',
   name: 'Ticket',
+  trainDependent: true,
+  refundable: false,
   originalAmount: 5250,   // original HUF price
   originalCurrency: 'HUF',
 }
