@@ -25,15 +25,27 @@ const isValidLeg = (t, leg, referenceDate) => {
   t.equal(typeof leg.origin.id, 'string', 'origin.id must be a string');
   t.ok(leg.origin.id.length > 0, 'origin.id must not be empty');
   // mav-stations only covers searchable stations, not every intermediate stop
-  t.comment(!stationIds.has(leg.origin.id) ? `note: station ${leg.origin.id} (${leg.origin.name}) not in mav-stations` : '');
+  t.comment(
+    !stationIds.has(leg.origin.id)
+      ? `note: station ${leg.origin.id} (${leg.origin.name}) not in mav-stations`
+      : '',
+  );
   if (leg.departureDelay) t.equal(typeof leg.departureDelay, 'number');
   if (leg.departurePlatform) t.equal(typeof leg.departurePlatform, 'string');
 
   t.ok(isValidDate(referenceDate, leg.arrival), 'invalid arrival date');
   t.ok(leg.destination, 'missing `destination`');
-  t.equal(typeof leg.destination.id, 'string', 'destination.id must be a string');
+  t.equal(
+    typeof leg.destination.id,
+    'string',
+    'destination.id must be a string',
+  );
   t.ok(leg.destination.id.length > 0, 'destination.id must not be empty');
-  t.comment(!stationIds.has(leg.destination.id) ? `note: station ${leg.destination.id} (${leg.destination.name}) not in mav-stations` : '');
+  t.comment(
+    !stationIds.has(leg.destination.id)
+      ? `note: station ${leg.destination.id} (${leg.destination.name}) not in mav-stations`
+      : '',
+  );
   if (leg.arrivalDelay) t.equal(typeof leg.arrivalDelay, 'number');
   if (leg.arrivalPlatform) t.equal(typeof leg.arrivalPlatform, 'string');
 
@@ -98,7 +110,8 @@ test('Erfurt Hbf -> Hegyeshalom via Wien Hbf', async (t) => {
   const results = await queryPrices(erfurtHbf, hegyeshalom, midnight, options);
   t.ok(Array.isArray(results));
   t.ok(results.length > 0, 'no results');
-  const deadline = midnight.getTime() + (options.duration / 60) * HOUR_IN_MILLIS;
+  const deadline =
+    midnight.getTime() + (options.duration / 60) * HOUR_IN_MILLIS;
   for (const journey of results) {
     isValidJourney(t, journey, midnight);
     t.ok(new Date(journey.legs[0].departure).getTime() <= deadline);
@@ -121,27 +134,50 @@ test('Budapest-Keleti -> Debrecen, domestic', async (t) => {
   t.ok(results.length > 0, 'no results');
   for (const journey of results) {
     isValidJourney(t, journey, morning);
-    t.equal(journey.price.originalCurrency, 'HUF', 'original currency should be HUF');
-    t.ok(journey.price.originalAmount > 0, 'original HUF amount should be positive');
+    t.equal(
+      journey.price.originalCurrency,
+      'HUF',
+      'original currency should be HUF',
+    );
+    t.ok(
+      journey.price.originalAmount > 0,
+      'original HUF amount should be positive',
+    );
   }
   t.end();
 });
 
-
 test('Wien Hbf -> Hegyeshalom, raw option', async (t) => {
-  const results = await queryPrices(wienHbf, hegyeshalom, morning, { raw: true });
+  const results = await queryPrices(wienHbf, hegyeshalom, morning, {
+    raw: true,
+  });
   t.ok(results.length > 0, 'no results');
   for (const journey of results) {
     isValidJourney(t, journey, morning);
     t.ok(journey.raw, 'missing raw data');
-    t.equal(typeof journey.raw.offerIdentity, 'string', 'missing offerIdentity');
+    t.equal(
+      typeof journey.raw.offerIdentity,
+      'string',
+      'missing offerIdentity',
+    );
     t.ok(journey.raw.offerIdentity.length > 0, 'empty offerIdentity');
-    t.equal(typeof journey.raw.serializedOfferData, 'string', 'missing serializedOfferData');
-    t.ok(journey.raw.serializedOfferData.length > 0, 'empty serializedOfferData');
+    t.equal(
+      typeof journey.raw.serializedOfferData,
+      'string',
+      'missing serializedOfferData',
+    );
+    t.ok(
+      journey.raw.serializedOfferData.length > 0,
+      'empty serializedOfferData',
+    );
     t.ok(Array.isArray(journey.raw.trainIds), 'missing trainIds');
   }
   // without raw — no raw field
   const results2 = await queryPrices(wienHbf, hegyeshalom, morning);
-  t.equal(results2[0].raw, undefined, 'raw should be absent when not requested');
+  t.equal(
+    results2[0].raw,
+    undefined,
+    'raw should be absent when not requested',
+  );
   t.end();
 });

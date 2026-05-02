@@ -5,8 +5,9 @@ Thumbs.db
 node_modules
 npm-debug.log
 
-.prettierrc
 .idea
+.kiro
+.npmrc
 
 tmp/
 coverage/
